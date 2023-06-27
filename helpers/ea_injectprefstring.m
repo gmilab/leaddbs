@@ -14,7 +14,7 @@ if ~isdeployed
     % generate output string
     str = ['prefs.', strjoin(varargin(1:end-1),'.'), '=''',varargin{end},''';'];
     % print
-    fid=fopen([ea_gethome, '.ea_prefs.m'],'a');
+    fid=fopen(ea_paths('user_prefs_m'),'a');
     fprintf(fid,'%s\n',str);
     fclose(fid);
 else

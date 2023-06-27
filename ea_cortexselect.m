@@ -477,7 +477,7 @@ else
     machine.atlaspresets.(getridofspaces(options.atlasset)).presets{clen+1}.label=pres.label;
 end
 
-save([ea_gethome,'.ea_prefs.mat'],'machine');
+save(ea_paths('user_prefs_mat'),'machine');
 
 % refresh content menu.
 ea_createpcmenu(handles)

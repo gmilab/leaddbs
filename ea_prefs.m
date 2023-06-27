@@ -22,33 +22,15 @@ home = ea_gethome;
 %     disp(['Running Lead-DBS in compiled mode, CTFROOT=', ea_getearoot, '; HOME=', home, '.']);
 % end
 
-if ~exist([home, '.ea_prefs', ea_prefsext], 'file')
-    copyfile([ea_getearoot, 'common', filesep, 'ea_prefs_default', ea_prefsext], [home, '.ea_prefs', ea_prefsext], 'f');
-end
-
-if ~exist([home, '.ea_prefs.mat'], 'file')
-    copyfile([ea_getearoot, 'common', filesep, 'ea_prefs_default.mat'], [home, '.ea_prefs.mat'], 'f');
-end
+userpref_m_file = ea_paths('user_prefs_m', 'init');
+userpref_mat_file = ea_paths('user_prefs_mat', 'init');
 
 % load user prefs
 try
-    if ~isdeployed
-        % file name starting with '.' is not a valid function/script name, so
-        % copy it to a temp file and then run it.
-        tempPrefs = ['ea_prefs_', strrep(ea_generate_uuid, '-', '_')];
-        copyfile([home, '.ea_prefs.m'], [ea_getearoot, tempPrefs, '.m'],'f');
-        uprefs = feval(tempPrefs, patientname);
-        delete([ea_getearoot, tempPrefs, '.m']);
-        umachine = load([home, '.ea_prefs.mat']);
-    else
-        fid = fopen([home,'.ea_prefs.json'],'rt');
-        uprefs = jsondecode(fread(fid,'*char')'); fclose(fid);
-        umachine = load([home, '.ea_prefs.mat']);
-    end
+    uprefs = ea_prefs_user(patientname);  % remove janky file copying requirement for user preferences file
+    umachine = load(userpref_mat_file);
 catch ME
-    prefs=dprefs; % it seems user-defined prefs cannot be loaded.
-    warning(ME.message);
-    return
+    error('Error loading lead DBS user preferences. %s', ME.message);
 end
 
 

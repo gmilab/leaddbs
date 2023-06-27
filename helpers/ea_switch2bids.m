@@ -69,14 +69,14 @@ if isfile([ea_gethome, '.ea_prefs.m.bids'])
     movefile([ea_gethome, '.ea_prefs.m.bids'], [ea_gethome, '.ea_prefs.m'])
 end
 
-if isfile([ea_gethome, '.ea_prefs.mat'])
+if isfile(ea_paths('user_prefs_mat'))
     disp('Backup .ea_prefs.mat from develop branch ...');
-    movefile([ea_gethome, '.ea_prefs.mat'], [ea_gethome, '.ea_prefs.mat.dev'])
+    movefile(ea_paths('user_prefs_mat'), [ea_gethome, '.ea_prefs.mat.dev'])
 end
 
 if isfile([ea_gethome, '.ea_prefs.mat.bids'])
     disp('Restore .ea_prefs.mat from bids branch  ...');
-    movefile([ea_gethome, '.ea_prefs.mat.bids'], [ea_gethome, '.ea_prefs.mat'])
+    movefile([ea_gethome, '.ea_prefs.mat.bids'], ea_paths('user_prefs_mat'))
 end
 
 if isfile([ea_gethome, '.ea_prefs.json'])

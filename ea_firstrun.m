@@ -59,8 +59,7 @@ if ~isfield(options.prefs,'firstrun') % first run.
         fwrite(fid, jsonencode(ea_prefs_default('')), 'char'); fclose(fid);
     end
 
-    copyfile([ea_getearoot,'common',filesep,'ea_prefs_default', ea_prefsext],[ea_gethome,'.ea_prefs', ea_prefsext], 'f');
-
+    ea_paths('user_prefs_m', 'init');
     ea_injectprefstring('firstrun','off');
 
     % check dataset isntallation

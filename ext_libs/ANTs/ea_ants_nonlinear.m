@@ -27,7 +27,7 @@ if nargin >= 5
     options = varargin{5};
     options.prefs=ea_prefs; % refresh prefs in case called from recompute window with different settings.
 else
-    umachine = load([ea_gethome, '.ea_prefs.mat'], 'machine');
+    umachine = load(ea_paths('user_prefs_mat'), 'machine');
     options.prefs.machine.normsettings = umachine.machine.normsettings;
 end
 
@@ -42,9 +42,9 @@ if isempty(which(options.prefs.machine.normsettings.ants_preset))
     options.prefs.machine.normsettings.ants_preset = ants_default_preset;
 
     % save default ANTs presets to user preference file
-    load([ea_gethome, '.ea_prefs.mat'], 'machine')
+    load(ea_paths('user_prefs_mat'), 'machine')
     machine.normsettings.ants_preset = ants_default_preset;
-    save([ea_gethome, '.ea_prefs.mat'], 'machine', '-append');
+    save(ea_paths('user_prefs_mat'), 'machine', '-append');
 end
 
 slabsupport = 1; % check for slabs in anat files and treat slabs differently (add additional SyN stage only in which slabs are being used).
